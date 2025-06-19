@@ -1,0 +1,8 @@
+chunk1 [Trip ID: T001 | Date: Saturday 10 PM] You drove 12km through city streets at night. You exceeded speed limits 3 times and braked hard near a signal.
+chunk2 [Trip ID: T002 | Date: Sunday 9 PM] Your driving was smooth, but you missed a stop sign and accelerated quickly after turns.
+chunk3 [Trip ID: T003 | Date: Friday 6 PM] The trip had moderate traffic. You maintained steady speed but took a wrong exit once.
+chunk4 [Trip ID: T004 | Date: Monday 10 AM] The route was smooth. No anomalies were detected.
+chunk5 [Trip ID: T005 | Date: Saturday 11 PM] The night trip included harsh braking twice and fluctuating speed.
+chunk6 [Trip ID: T006 | Date: Tuesday 3 PM] You drove through school zones. One instance of speeding was noted.
+chunk7 [Trip ID: T007 | Date: Sunday 8 PM] Good control overall, but your lane keeping was slightly off near the highway exit.
+
