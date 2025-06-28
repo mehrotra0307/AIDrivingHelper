@@ -41,8 +41,8 @@ class LLMInferenceChain(private val application: Application) {
 
     private val embeddingModelPath = "/data/local/tmp/Gecko_256_quant.tflite"
     private val tokenizerModelPath = "/data/local/tmp/sentencepiece.model"
-    private val gemmaTaskModelPath =
-        "/data/local/tmp/llm/Gemma3-1B-IT_multi-prefill-seq_q4_ekv2048.task"
+    private val gemmaTaskModelPath ="/data/local/tmp/llm/gemma3-1b-it-int4.task"
+       // "/data/local/tmp/llm/Gemma3-1B-IT_multi-prefill-seq_q4_ekv2048.task"
 
     private val _facts: MutableStateFlow<String> = MutableStateFlow("")
     val factsString: StateFlow<String> = _facts.asStateFlow()
@@ -78,15 +78,23 @@ class LLMInferenceChain(private val application: Application) {
             """.trimIndent()
 
 //    val promptTemplate = """
-//You are a helpful AI assistant. Below is information from the user's past trips:
+//You are a driving assistant AI. Analyze past trip records to answer the user's driving question.
 //
+//Instructions:
+//- Carefully read the trip summaries and the "Events Detected" line in each.
+//- If the user asks about specific events (e.g. braking, phone usage, acceleration), only include trips that mention those events.
+//- Do not include trips that don't match the event or are irrelevant.
+//- For summaries, give Trip ID, Date, and a brief explanation.
+//- Never make up or hallucinate any trip data.
+//
+//Trip Records:
 //{1}
 //
-//Based strictly on this data, answer the following question:
-//{0}
-//
-//If the data is not enough, say "I don't know based on the available data."
+//User Question: {0}
 //""".trimIndent()
+
+
+
 
 
     private val config = ChainConfig.create(
@@ -153,7 +161,6 @@ class LLMInferenceChain(private val application: Application) {
         future?.get()
     }
 
-
     suspend fun generateResponse(
         prmopt: String,
         callback: AsyncProgressListener<LanguageModelResponse>?
@@ -162,6 +169,7 @@ class LLMInferenceChain(private val application: Application) {
         val retrievalRequest = RetrievalRequest.create(
             prmopt,
             RetrievalConfig.create(3, 0.0f, RetrievalConfig.TaskType.QUESTION_ANSWERING)
+
         )
         Log.d(
             "LLMCheck",
@@ -171,4 +179,40 @@ class LLMInferenceChain(private val application: Application) {
         )
         retrievalAndInferenceChain.invoke(retrievalRequest, callback).await().text
     }
+
+    //    suspend fun generateResponse(
+//        prompt: String,
+//        callback: AsyncProgressListener<LanguageModelResponse>? = null
+//    ): String = coroutineScope {
+//        val retrievalRequest = RetrievalRequest.create(
+//            prompt,
+//            RetrievalConfig.create(7, 0.0f, RetrievalConfig.TaskType.QUESTION_ANSWERING)
+//        )
+//
+//        val memory = config.semanticMemory.getOrNull()
+//        val retrievalResponse = memory?.retrieveResults(retrievalRequest)?.await()
+//
+//        // ✅ Safely extract chunk content using toString()
+//        val retrievedChunks: List<String> = retrievalResponse?.toString()
+//            ?.split("retrievedItems=[")
+//            ?.getOrNull(1)
+//            ?.split("])")?.getOrNull(0)
+//            ?.split("),")?.map { it.trim().removePrefix("RetrievalItem(item=").removeSuffix(")") }
+//            ?: emptyList()
+//
+//        Log.d("LLMCheck", "🔍 Retrieved Chunks:\n${retrievedChunks.joinToString("\n\n")}")
+//
+//        val response = retrievalAndInferenceChain.invoke(retrievalRequest, callback).await().text
+//        Log.d("LLMCheck", "🔍 retrievalResponse is $response")
+//
+//        response
+//    }
+
+
+
+    private fun extractEventFilter(query: String): String? {
+        val keywords = listOf("phone", "speeding", "braking", "acceleration", "none")
+        return keywords.firstOrNull { query.contains(it, ignoreCase = true) }
+    }
+
 }

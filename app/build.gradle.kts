@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")
 }
 
 android {
@@ -42,10 +43,22 @@ android {
 dependencies {
 
     implementation(libs.tasks.genai)
-    implementation("com.google.ai.edge.localagents:localagents-rag:0.1.0")
+    implementation("com.google.ai.edge.localagents:localagents-rag:0.2.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.7.3")
 
+    implementation("androidx.compose.material:material-icons-extended")
+
+
+
+
+
+    // Room components
+    implementation("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1") // Required for annotation processing
+
+    // Kotlin Extensions + Coroutines support
+    implementation("androidx.room:room-ktx:2.6.1")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
