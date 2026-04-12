@@ -4,6 +4,8 @@ An Android driving coach that uses **RAG (Retrieval-Augmented Generation) entire
 
 Ask: *"Was I speeding more at night?"* — get back a coaching response grounded in your actual trip data. No cloud. No data leaves the phone.
 
+> This project is an independent proof-of-concept built for learning purposes using synthetic/demo data. It is not affiliated with or based on any proprietary systems or data.
+
 ## Features
 
 - **RAG-based trip retrieval** — semantic search over stored driving trips using Gecko embeddings and SqliteVectorStore
