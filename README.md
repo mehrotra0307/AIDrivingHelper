@@ -6,6 +6,12 @@ Ask: *"Was I speeding more at night?"* — get back a coaching response grounded
 
 > This project is an independent proof-of-concept built for learning purposes using synthetic/demo data. It is not affiliated with or based on any proprietary systems or data.
 
+## 🎥 Watch it in action
+
+[![Watch the demo](https://img.youtube.com/vi/DAynPP6EHvE/maxresdefault.jpg)](https://www.youtube.com/watch?v=DAynPP6EHvE)
+
+Full project write-up: [ashishmehrotra.com/projects/ai-driving-helper](https://ashishmehrotra.com/projects/ai-driving-helper)
+
 ## Features
 
 - **RAG-based trip retrieval** — semantic search over stored driving trips using Gecko embeddings and SqliteVectorStore
